@@ -84,8 +84,8 @@ int main(){
 
         int r,c;
         cin >> r >> c;
-        int value = generateValue(r,c);
-        cout << value << endl;
+        int reqvalue = generateValue(r,c);
+        cout << reqvalue << endl;
 
     }
 }
