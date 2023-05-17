@@ -51,9 +51,9 @@ int generateValue(int r, int c){
 }
 
 int main(){
-    int t;
-    cin >> t;
-    while(t--){
+    int testCase;
+    cin >> testCase;
+    while(testCase--){
         int n;
         cin >> n;
         vector<vector<int>> pascal;
