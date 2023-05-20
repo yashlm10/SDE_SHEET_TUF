@@ -89,3 +89,90 @@ SDE SHEET TUF  problem solution and concepts
 5. also if difference is not greater than zero update buy to be the current day that is the new min price.
 6. return the profit.
 ---
+## problem 7 rotate matrix clockwise
+### given a matrix rotate it by 90 deg cloclwise
+#### solution == mysol tc =n*n sc=1.
+1. naive approach would have been making another array and printing directly the last row to first column and so on.
+2. optimised approach is basically taking transpose of the matrix and reversing each row == taking mirrir image of matrix.
+3. to transpose, for every j>i swap i|j with j|i, remember not to swap for all j.
+4. reverse each row in the next loop to get the required matrix.
+---
+## problem 8 merge overlapping intervals
+### given an array of mixed intervals, merge the overlapping intervals to return an array with minimum number of intervals.
+#### solution tc = nlogn + n, sc = n;
+1. firstly sort the given array to group the closer intervals together (nlogn time).
+2. create another 2d array ans.
+3. run a loop for number of intervals in the given array.
+4. now if the ans array is empty or the pointer intervals first element is greater than second element of ans array last element.
+5. this means there is no overlapping so push the interval in the ans array.
+6. otherwise if there is overlapping, modify the 2nd element of last interval of answer array to be the maximum of (intervals[i][1]/ans.back()[1]).
+7. come out of the loop and return the ans array.
+---
+## problem 9 merge sorted arrays
+### given two sorted arrays merge them and return two arrays such that sorted merged array is printed as those two arrays.
+#### naive approach with extra space n+m. tc = (n+m)*2, sc = n+m.
+1. traverse both arrays simultaneously starting from first element each.
+2. compare corresponding elements and add the smaller one to another array and shift that arrays pointer to the next element.
+3. after smaller array ends, add rest elements to third array.
+4. divide 3rd array in two arrays and return.
+#### optimal sol 1 tc = min(n,m) + nlogn + mlogm, sc = 1.
+1. make two pointers left = last element of first arr and right = first element of 2nd arr.
+2. for every iteration till one of the arrs end, compare the two elements.
+3. if left is greater, swap it. if left is smaller or equal, stop the iterations.
+4. now we will have all small and larger elements stored in respective arrays.
+5. sort both arrays and return.
+#### optimal sol 2, gap method using shell sorting. tc = (n+m)log(n+m), sc = 1.
+1. calculate the gap by the formula ceil(length/2), length = n+m.
+2. now initialise two pointers left = 0 and right = gap + left.
+3. think of a hypothetical third array made by merging two arrays given.
+4. now iterate through this array with pointers, and compare the two elements, if left is > right then swap them.
+5. in each iteration increase both pointers by one and keep iterating till right = length.
+6. then edit gap to be ceil(gap/2) and repeat the process till gap = 0 and then return two arrays.
+7. while implementing code, we will have 3 situations, both pointers in diff arrays, in first array, in second array.
+8. carefully edit value of pointers to make sure you are operating in the correct array.
+---
+## problem 10 find the duplicate element 
+### find the duplicate element in a given array of n+1 size where all elements are from 1 to n range.
+#### naive sol tc= nlogn+n sc=1
+1. sort the array and iterate through the loop to find duplicate.
+#### solution using hasing/frequency array tc = n, sc = n (extra space)
+1. create a frequency array of same size and initialize all elements to zero.
+2. run a loop iterating through the given array, every element of the given array points to an index in the freq array.
+3. change the value of the pointed index to 1 for every iteration on the given array.
+4. if at any iteration, the pointed index in frquency array is already edited to 1, then retuen that index as the duplicate element.
+#### using hare and tortoise method / circular linked list method. tc = n, sc= 1.
+1. we create a path starting from the first index(0) and the next element being the value at the index pointed to by the value of the current index
+2. so on we create a path and since there exists a duplicate element, a cycle would be formed at some point.
+3. now usinf the hare tortoise method, we initialise a slow and a fast pointer at the 0th index.
+4. now the slow pointer will move one step while the fast pointer moves two steps.
+5. since at every point distance travelled by slow is half of that travelled by fast, they are bound to meet on the cycle.
+6. once they meet at the first time, edit fast to be the first element on the path and move both pointers one step.
+7. the pointers will meet at the duplicate element.
+8. once they meet for the first time, fast is sent to start, so fast will cover that distance slow covered before entering the loop.
+9. while slow travels the same distance in the loop, so they are bound to meet at the duplicate element where the loop starts.
+10. to prove, let distance from first element to first collision point be a, distance till duplicate element be x.
+11. so distance inside loop fro dup element to first collision point is a-x, so distance from first collision to dup to the other side of loop is x
+12. while implementing code, initialise slow and fast pointers to be value of first element.
+13. now move slow by one step by slow = arr[slow], and fast by two steps by fast = arr[arr[fast]].
+---
+# problem 11 find repeating and missing digit
+## in an array of n intergers from 1 to n, find the repeating and missing digit.
+#### hashing method tc =2n sc = n(extra space)
+1. make a frequency array and store freq of each element.
+2. iterate freq array and return the indices with freq 2 and 0.
+#### using mathematical equations tc = n, sc = 1.
+1. make 2 eq 2 variables and solve them to obtain the values.
+2. eq 1 => repeat - missing = sum of array elements - sum of elements till n
+3. eq 2 => repeat^2 - missing^2 = sum of squares of elements of given array - sum of squares of numbers till n.
+#### there is a third approach using XOR with similar tc and constant sc.
+1. go through https://takeuforward.org/data-structure/find-the-repeating-and-missing-numbers/
+---
+## problem 12 count inversions
+### given an array, count number of inversion pairs--> for i<j arr[i] > arr[j].
+#### bruteforce run 2  loops and check n^2 tc.
+#### using merge sort with tc = n*logn.
+1. while doing merge sort count number of inversions while merging the divided pieces of array.
+2. to divide use recursion by editing mid to left+right/2 and (left to mid)/ mid+1 to right.
+3. while merging, compare left and right elements if there is a need to swap increase inv_count by mid-left.
+4. basically pls practise merge sort code.
+---
