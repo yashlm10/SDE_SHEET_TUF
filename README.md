@@ -176,3 +176,97 @@ SDE SHEET TUF  problem solution and concepts
 3. while merging, compare left and right elements if there is a need to swap increase inv_count by mid-left.
 4. basically pls practise merge sort code.
 ---
+## problem 13 search in 2D matrix
+### given a 2D matrix and a target element, find if it is present in the matrix or not.
+#### linear search n+m complexity
+1. iterate through first column, to find the element which is less than taregt and next element greater than target.
+2. iterate through the found row or return false if no such row exists.
+3. linear search in the row to find/ not find the target.
+#### binary search log(n*m) complexity
+1. we will treat the matrix as a single array sorted in non-dec fashion and create a low=0 and a high=n*m-1 pointer.
+2. return false for the case in which matrix is empty.
+3. create a loop to run while low <= high and in every iteration initialise pointer mid = (low+high)/2;
+4. to access the element pointed by mid, row = mid/m, column = mid%m where m is number of columns.
+5. now if mid element is == target return true, if less than target low = mid + 1, if greater high = mid-1.
+6. if we make it out of the loop that means left>right so we return false.
+---
+## problem 14 find power of double 
+## given a double x and long long n find x raised to the power n. 
+#### cant solve by brute force as n is very large.
+#### solve using BINARY EXPONENTATION tc = logn.
+1. in binary expo. we keep dividing the power by 2 till power is 0, so log n times we compute x*x.
+2. create a long long variable initialised to n and a double initialised to x.
+3. for negative n convert it to positive.
+4. for power = odd, subtract power by 1 and multiply answer by x. note for atleast once power would be odd.
+5. if power is even, edit x to x*x(raising to power 2) and divide power by 2.
+6. for the case in which power is negative, divide answer by 1: ans = (double)(1.0)/(double)(ans); return answer.
+---
+## problem 15 find element > n/2
+### given an array find the element which occurs more than n/2 times.
+#### n^2 complexity naive solution to run loop for every element.
+#### solution using hash map. tc = nlogn + n, sc = n.
+1. create a map and for iteration i 0 to n, do map[v[i]]++.
+2. this assign the key to be v[i] and every time it occurs, the value increases by 1, hence creating a hashmap.
+3. again for auto it: map iterate through the map and for it.second > n/2, return that it.second  
+4. if in the question it is not mentioned that there is necessarily a majority element, the run another loop to check.
+5. inserting in map requires logn time, since n insertions nlogn. if we have to check existence then another n time added.
+#### MOORE'S VOTING ALGORITHM
+1. we initialise a count variable = 1, element = v[0].
+2. now we iterate through the array, if the current element == element the increase count.
+3. if not equal, then check if count is zero, if not then decrese count and move to next itertion.
+4. if count is 0 for curr_ele != element then edit element = v[i], and increase count by 1.
+5. the intution is, the non majority element cancle out their count, and the count for majo element persists.
+6. ie count at the end would be the no of times majo element is more than non majo elements.
+---
+## problem 16 find element occuring > n/3.
+### given an array, find elemmts occuring more than n/3 times,return empty array if not.
+#### observation.
+1. the max no. of elements can be 2, more than that is not possible. proof by contradiction.
+#### sol by hash map tc = nlogn, sc = n.
+1. same like last problem just push the checked element in an array and return it.
+#### Extended Boyer Moore's Voting Algorith
+1. same logic of cancellation as before, this time we use two counters and independently move them.
+2. init two counters to 0 and elements1 and 2 to int_min.
+3. iterate through the given array, if counter is zero and another counter element is not equal to curr_ele
+   then increase counter and assign counter's element to current element.
+4. if curr_ele is equal to any of the elements, then increase its counter.
+5. for all other cases, decrease BOTH counters by one.
+6. now, for the two obtained elements, run a loop to check its frequency.
+7. push the checked element in an array and return.
+---
+## problem 17 unique grid paths.
+### given number of rows and columns of a grid find number of uniques paths from top left to bottom right if you can only move down or right
+#### exponential time complexity and space compleity recursion solution.
+1. using recursion we will travel all paths and check for each of them.
+2. for any [i][j] position if we exceed number of rows/columns we return zero.
+3. if we reach bottom right we return 1 or else run program again with i+1,j and i,j+1 till we hit base cases.
+4. for i=0,j=0 we will run the recursive function and return our answer.
+#### dynamic programming solution, tc = m*n, sc = m*n.
+1. priciple of dp is we wont resolve the sub problems we already have visited, rather just return its answer on checking.
+2. we will create a matrix with m+1 row ans n+1 columns and initialise all values to -1.
+3. now keeping everything else same as previous solution, we will check if matrix cell value is alrady -1.
+4. if not then we will take rhe result strored in that cell.
+5. if it is -1 this means it hasnt been visited so we compute a recursive function for it last solution when we returned this value.
+6. now we return dp[0][0], if m==n==1, we return the value on computing nd not dp[0][0] bcuz it is an edge case.
+#### most optimal solution is using combinatorics tc = n-1 or m-1 sc =1.
+1. if we observe everytime we need only m+n-2 number of steps to reach the target.
+2. so we choose any n-1 rows or m-1 columns (both being same).
+3. so we compute m+n-2Cn-1 by the method used in pascals triangle problem.
+---
+## problem 18 Reverse pairs count
+### given an array find the number of reverse pais such that for i<j arr[i] > 2*arr[j].
+#### brute force solution n*n tc sc = 1.
+1. run 2 nested loops to check.
+#### using merge sort tc  = nlogn + n + n. sc = n.
+1. write merge sort codes it is just add the following function.
+2. in this function before merging we check if arr[i] > 2*arr[j] and increase counter.
+3. consider two sorted arrays left and right.
+4. if in the right first element forms a reverse pair with an element of left then in the next iteration we need not check this right element for next element of left as it would naturally form a reverse pair since both arrays are sorted. using this logic we write the code.
+5. we run a loop for i= low to i = mid, and initialise a pointer j = mid+1.
+6. now for every i we check if j<=high and arr[i]>2*arr[j] if yes we increase j by one and keep checking.
+7. if j comes out of the loop we add to the counter j-(mid+1) since we initialised j to mid+1.
+8. notice we are not initialising j again and again as using logic 4 we need not check smaller checked elements again. 
+9. practise merge sort algo again.
+10. keep in mind the use of long long since there might be an over flow, the syntax used to convert int to long long in this case is 
+arr[i] > 2*(long long)arr[j] **remember use of spaces errorifies the syntax**
+---
