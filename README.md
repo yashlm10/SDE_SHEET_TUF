@@ -270,3 +270,105 @@ SDE SHEET TUF  problem solution and concepts
 10. keep in mind the use of long long since there might be an over flow, the syntax used to convert int to long long in this case is 
 arr[i] > 2*(long long)arr[j] **remember use of spaces errorifies the syntax**
 ---
+## problem 19 two sum pairs
+### given an array and a target, find indces of two numbers whose sum is equal to the target, if not return -1, indicea cant be same
+#### brute force approach tc = n*n.
+1. run two loops(nested) to search for such pairs
+#### hashing using unordered map 
+1. we add numbers in a map as key and its value as index.
+2. before adding the number we check if its complement(target - num), exists in the map using .find() function.
+3. if yes then we return the two indices else return -1,-1 if we come out of the loop.
+4. time c = n, since searching,insertion and deletion in unordered map is constant complexity, sc =n.
+5. in rare worst cases we get n*n tc as map takes n time to search, so we use map and tc = n*logn as in map search = logn.
+#### using two-pointers
+1. we first sort the array and then initialse left =0 and right =n-1 pointers.
+2. now we compute sum of elements pointed by pointers.
+3. if sum is == target we have our required indices, search for these indices in the original array before sorting.
+4. if sum is < target, increase left pointer by 1 other wise decrease right pointer by 1.
+5. keep checking till the base case condition left > right.
+6. return the answer or -1 accordingly.
+7. tc = n + logn*n sorting + searching (except the loop where we searched original indices)
+8. it is reccomended to use previous method if we have to return the two indices as tc(&sc) will increase.
+---
+## problem 20 Four sum quadrets.
+### given an array find all quadrets which sum up to be equal to a given target.
+#### use 4 loops n^4 tc solution.
+#### using hashing (n^3)*(logm) sc = 2*number of quads + n(use of set) *tc is high*
+1. we fix two indices and use hasing to find other two as in the previous sol.
+2. we run two loops to fix first two indices and like last we use hashset to find and store values.
+3. while calc. sum we initialise sum = first two fixed numbers sum, then in next step we add next elements value so that in every loop we can add a diff value. as in prev. sol we then insert the checked element to the hashset and continue checking (unlike last sol).
+4. we add our quadret to a temporary array then sort it and insert it into the answer set.
+#### using two pointer method tc = n^3 sc = no of quads === const.
+1. we fix first two indices and then use two pointer method as prev. sol.
+2. *first of all dont forget to sort the given array which is a common mistake*
+3. Now run first loop for first index and check for duplicates if it is not first element and equal to prev element,increment it to next element.
+4. similarly run another loop for 2nd index and check for duplicates.
+5. now we use 2-ptr method, by initilizing left = j+1 and right =n-1.
+6. run loop while left < right, initialise sum = arr[i] and add the other 3 indices separately so that in every iteration we can add diff values.
+7. now if sum< target increment left else decrement right, if equal then make a temp vector with values being the 4 quads and push in answer vector
+8. now we have to check for duplicates, after pushing in the answer,intialise two pointers equal to left and right,run two separate while loops and check for left < right if arr[left]==arr[temp1] (same with right), increment or decrement accordingly if true.
+9. on coming out of the loops, return the answer vector.
+---
+## problem 21 Longest consecutive sequence 
+### given an unsorted array find the longest possible sequence of numbers in the array
+#### basic approach n*logn = tc constant sc.
+1. before starting we check for n=0 casse then first we sort the array and then run a loop to check for max sequence.
+2. run two counters answer=1 and currentsequence=1, at the end of every iteration checking, edit answer  = max of answer/currentsequence
+#### using hashing tc = n and sc =n.
+1. first we add all numbers of the array in a hashset by using for(int num: nums) loop and .insert() function of set.
+2. now we again run the loop and check if the pointed current element is the first in the sequence (i.e its -1 not present in hset).
+3. if yes then we make our counter =1 and current element equal to the iterated element.
+4. then we keep checking till +1 of current element is present and keep increasing counter and current element.
+5. on coming out of the loop we edit value of answer counter = max of answer and currentcounter.
+6. return the answer.
+---
+## problem 22 longest subarray with zero sum.
+### given an array of integers find the longest subarray(subarray is always of consecutive elements) whose sum is zero.
+#### brute force tc = n^2, sc =1.
+1. run two nested loops and check sum for each sub array.
+2. return the longest length of subarray if sum is zero.
+#### using unordered map tc = n, sc =n.
+1. we will check prefix sum of every element, the logic is, if sum of subarray is zero, the prefeix sum would be same for boundary elements of the subarray.
+2. so we use unordered map to use numbers as key and their indices as value.
+3. if PS =0, then max is max of prev value and i+1, else we will check in the map for the same PS.
+4. if we find one, we edit max to be max of prev value and i - map[sum]. note that we dont add this to map as we need max length.
+5. if we dont find the PS in map we add it to the map with its index as value.
+6. worst case sc =n if we have to add all elements to the map.
+---
+## problem 23 count subarrays with XOR k.
+### given an array count number of subarrays with XOR equal to the given target.
+#### naive approach tc = n^2 sc =1.
+1. run two loops to check every sub array.
+2. in every iteration xor with previous value and check if equal to target.
+3. if yes then increment the counter and after coming out of the loops return counter.
+#### using unordered map tc = n = sc.
+1. the logic is in using prefix xor and the fact that number of PXOR^k present in the map == number of req. sub arrays upto the current element.
+2. lets assume a sub array upto current element with xor =k, and the PXOR = xr, and the rest of the subarray before required subarray =x.
+3. so we have x^k=xr, if we xor by k on both sids we get x = xr^k. hence proved. so number of xr^k present before current element has to be equal to number of required subarrays before current element.
+4. so in every iterartion we take the prefix XOR and increase the counter by number of xr^k present in map then add current PXOR to the map.
+5. *IMPORTANT* in maps if value is not specified, it is by default set to 0 for any key.
+6. before the loop we first set value of 0 to 1 (map[0]++). this is because, if suppose first element is a and a is required xor, so x = a^a = 0,
+now if we dont set map[0] to one, the counter wont increase for this single element subarray which should not be the case. *important*
+7. in every iteration we xor to the PXOR and initialise x and increase counter by map[x] if x is not present map[x] would be zero by default else the required frequency would be added.
+8. at the end of iteration we increment the PXOR map value by 1, if it hase been added first time its value will become 1 and so on.
+---
+## problem 24 longest substring nonrepeating characters.
+### given a string, find maximum substring in which no character is repeated.
+#### using two loops and hash set tc = n^2,sc = n.
+1. we use two loops to check in every substring and before entering any substring we declare a new hash set.
+2. check for a duplicate character and if present edit length and break out of loop.
+3. if j is last element of the arr, i.e there is no duplicate element then again edit the length.
+4. also dont forget to return 0 for empty array.
+#### using two pointers and hash set tc = 2n sc = n;
+1. we use an unordered set and a left pointer = 0, first we return 0 for empty array.
+2. we check for every iteration of right pointer from 0 t0 n , and keep adding right pointer element to the hset and edit length value to be max of prev value or right-length+1.
+3. if there is a duplicate element, we keep erasing the left pointer and incrementing the left pointer till we dont find a duplicate element.
+4. we edit length again and insert right, as we come out of the loop return the value of length.
+#### using mapping and two pointers tc = n, sc =n
+1. we create a vector and ititialise it with 256 -1 's since there can be 256 characters in a string.
+2. we intialise two pointers left and right both 0.
+3. now we run a loop for right pointer to go 0 to n, and in every iteration we check if in the vector the index position is -1 if not, this means it is a duplicate element.
+4. in that case shift left pointer to be either vector[s[r]]+1 (one ahead of last seen of duplicate element) or if last seen of duplicate element is out of l-r range then dont shift left.
+5. irrespective of the checking, modify value of s[right] i.e vector[s[r]] = r
+6. now edit length to be max of prev value or r-l+1, then increment right by one and after coming out of loop return length.
+---

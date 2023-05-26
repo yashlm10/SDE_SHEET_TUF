@@ -15,3 +15,9 @@ majority_element1.exe
 majo_eles_nby3.exe
 grid_unique_paths.exe
 reverse_pairs.exe
+two_sum.exe
+four_sum.exe
+longest_consecutive_sequence.exe
+longest_subarray_zerosum.exe
+subarrays_withgivenXOR.exe
+longest_substring.exe
