@@ -372,3 +372,76 @@ now if we dont set map[0] to one, the counter wont increase for this single elem
 5. irrespective of the checking, modify value of s[right] i.e vector[s[r]] = r
 6. now edit length to be max of prev value or r-l+1, then increment right by one and after coming out of loop return length.
 ---
+## problem 25 reverse linked list using iterative and recursive method.
+### given a linked list and reference to its head, reverse it using iterative and recurrsive method and return the new head.
+#### using 3 pointers. tc = n, sc = 1.
+1. we use next to save the next node.
+2. then we swap current next to be previous and previous tobe current node and then shift the curr to be the next node for the next iteration.
+3. we will have aour successive iterations till we reach the last node and then return previous as it would be our new head.
+#### using one pointer and one dummy node.
+1. we create a null node first and then run a loop for till head is not null.
+2. in every iteration we edit head->next to be dummy and then shift dummy and head one node ahead by making dummy=head and head to the next node.
+3. as head reaches null we return dummy which is our new head.
+#### using recursion.
+1. firstly for the vase when head is null we return null.
+2. 2nd base case is when head->next is null that is we reached the last node.
+3. we recursively move to the last node and make it head.
+4. then we travel backwards doing 5 4 3 2->1->null ny the commands head->next->next = head and head->next = null.
+5. in the end we return new head.
+---
+## problem 26 find middle of linked list
+### given a linked list and reference to its head, return the middle element of the list.
+#### brute force approach n+n/2 tc.
+1. iterate throught the list to the end and increase counter to find number of nodes.
+2. divide count by 2 and iterate till midlle node and return it.
+#### using hare tortoise method. tc = n.
+1. logic is if hare reaches end, the tortoise will travel half that is to the middle element.
+2. create 2 pointers and increment to next and next next repectively till the latter becomes null or last node.
+3. return the slower pointer as the middle element.
+---
+## problem 27 merge two sorted linked lists.
+### given two sorted non decreasing linked lists and references to their head, merge them and return head of resultant LL.
+#### using extra linkedlist tc = n+m, sc = n+m(extra).
+1. create a dummy null node and another temporary node initilaised to dummy node, we create dummy so that we can return dummy next as answer.
+2. now while both lists are not null, check for the smaller node and set temp next to be that node temp->next = list1/list2 and move that list to the next node.
+3. after every check move temp to the next element, that is the next in sequence. by temp = temp-next.
+4. after either of the lists reach null, set next of temp to be the other list.
+5. return dummy-next as your answer as it would be the head of the resultant list.
+#### using inplace method without use of extra space tc = n+m, sc =1.
+1. firstly check if either of the lists is empty, if yes then return the other list.
+2. check if first list head is greater than second lists head, if yes then swap it so that we can create a new node answer to store head of the resultant list.
+3. now run a loop till both lists are not null. and in every iteration we create a null node temp.
+4. now run loop as long as list1 is not null and list1 value is lesser than list2 value and in every iteration edit temp to be list1 and move list1 ahead.
+5. if we come out of loop, it means list1 value became greater, so make temp next to be list2 and then swap list1 and 2 to keep list 1 pointed at smaller element. 
+6. so again in next iteartion we will create temp null and follow same steps.
+7. return the answer node as head of resultant list.
+---
+## problem 28 remove nth element from end
+### given a linked list and a reference to its head, and a position n from end, return head of the linked list after removing nth element from the end.
+#### bt traversing the linked list twice.
+1. traverse the linked list and maintain a counter to count total nodes.
+2. now traverse again to the element before the element to be removed, and change temp-next to temp-next-next.
+3. take care of the cases separately when head is null or n is total size of list
+#### using two pointers.
+1. create a null node start and initialise two pointers to be start. and let start-next be the head.
+2. mow take the fast pointer to nth node, and then run a loop till fast is the last element of the list.
+3. so logically at this point slow would be pointing to the element before the node to be removed.
+4. edit slow-next to be slow-next-next and return start->next. dont return head as it is set to be the first element but the first element can itself be removed.
+---
+## problem 29 add two numbers represented as linked lists
+### given two numbers represented as linked lists with digits in reverse order, return their sum stored in a linked list in a similar way.
+#### using a carry and normally adding tc = max(n,m) sc = max(n,m).
+1. initialise a carry to be zero and create a dummy null node as head of answer linked list.
+2. run a loop till either of lists is non zero or carry in non-zero.
+3. in every iteration, create a sum variable and store the sum in it adding elements from both lists and the carry.
+4. edit carry to be sum%10 and add sum/10 to a new formed node.
+5. add this node to our new linked list and carry on with the iterations.
+6. return the head of answer array = dummy-next.
+---
+## problem 30 delete a given node from a linked list in tc=1.
+### given a linked list and reference to the node to be deleted (delete it and return the list),head reference not given.
+#### my sol not recommended
+1. copy all elements to the previous one till the last node and then remove last node.
+#### optimal O(1) solution.
+1. copy value of next node to the intended node and then move pointer of current node to the node after the next node.
+---
