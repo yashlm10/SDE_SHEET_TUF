@@ -527,3 +527,78 @@ now if we dont set map[0] to one, the counter wont increase for this single elem
 7. keep adding the smaller pointed node to a new formed ll (by pointing it to the smaller node) and move to the next node of that list and so on.
 8. finally return the merged list and pass it to the recursive flatten function.
 ---
+## problem 37 rotate linked list by a given no of times to right.
+### given head reference of a ll and a number k, rotate ll to right by k no of times, rotate right means shifting all digits one place right and last to first.
+#### brute force no recommended, for all k run a loop and keep shifting last element to first tc=n*k
+#### optimal sol === my sol, tc = n + n-(k%n).
+1. for every n length ll, every n right shift returns the same linked list, so we have to shift only k%n times.
+2. for that, iterate to the node before the node to be made head, make next node head and then point it to null, to make it the tail node.
+3. also before that point last node to the original head node.
+4, dont forget to add the case when head is empty or the last element.
+---
+## problem 38 clone a ll with next and a random pointer.
+### given head reference of a linked list, clone it and form a different identical ll, if every node has a next and a random pointer pointing to any other node of the list.
+#### using hashmap tc= n+n, sc=n.
+1. create a hashmap and while traversing the given linked list, create another new linked list with same nodes pointing to same new nodes and in the map store for original ll node as key and corresponding node of new ll as its value.
+2. now iterate again and for every node newtemp-random = map[temp-random] as map values are nodes of new ll they random will point to the intended node in the intended ll.
+3. for the case when head is null return head.
+#### optimal solution using multiple pointers tc = n+n sc=1.
+1. traverse the original ll and point ever node to its corresponding new list node and point new list node to next node of original list.
+2. this basically inserts new list nodes in between original list nodes.
+3. now to set random pointers, since every original node is pointing to its corresponding new list node, simply set temp-next-random = temp-random-next. where temo next will give the new list corresponding node of the temp node then continue the iteration.
+4. now we have the random pointers set so we have to seperate the two lists now, for that we use three pointers temp,itr and fast.
+5. fast is to store original list next node, itr is to iterate over original list and temp is to iterate over bew list.
+6. we first vreate a dummy node and set temp to be dummy and itr to be head.
+7. now we start iterating and set fast to be itr-next-next, temp-next to be itr-next to set the next of new list node to the next new list node(in first iteration to point dummy to first new list node).
+8. then we move itr-next to be fast to point original list node to next original list node.
+9. move temp to temp next to move to next new list node (in the first iteration we go from dummty to first new list node) and then set itr to fast again to get set for next iteration.
+10. finally we return dummy->next.
+---
+## problem 39 three sum 0 target
+### given an array find triplets in the array taht sum up to be the target value i.e zero.
+#### brute force using three loops to check all possible triplets.
+#### using two pointer method as used in four sum problem tc = n^2, sc=3*no. of triplets.
+1. first of all to use two pointer approach we need to sort the given array.
+2. now we run a loop from first to 3rd last element in the array.
+3. if current element is either 0th index or is not the duplicate of prev element we operate else continue with next iteration.
+4. in every operation, we set low to be element just after iterating element and high to be last element and sum = target - iterating element.
+5. now we run a loop while lo < hi and check if lo plus high is equal to sum , we push the triplet in our answer and as long as there are no duplicates we increment and decrement lo and high.
+6. after that we incrememnt and dectrement lo and high, and if lo plus high is less than sum we increment lo if more than sum we decrement hi.
+7. to check for duplicates is most important in this problem. return answer once out of loops.
+---
+## problem 40 trapping rainwater 
+### given an array of positve integers represents the ground level values, determine the amount of water trapped in the ground.
+### the prime logic of thi problem is to figure out that the amount of water trapped is basically for all elements min of leftmax and rightmax minus height at current index.
+#### brute force calculating max on either side for both elements tc = n^2,sc=1. will give TLE not recommended.
+1. create var leftmax and rightmax.
+2. for every element traverse to left to find left max and traverse to right to find right max and return min of it - height at that element.
+#### using prefix and suffix arrays to store left and right max for every element tc = 3*n, sc=2n.
+1. apart from leftmax and rightmax variables, create two arrays of size n prefix and suffix.
+2. for both arrays set first element to be the first and the last element repectively.
+3. traverse right to store prefix values max(prefix[i-1],height[i]) and to left to store suffix values max(suffix[i+1], height[i]).
+4. now traverse the array and for every element add to the answer min of prefix,suffix - height.
+#### using two pointers tc = n, sc=1.
+1. create two pointers left and right apart from leftmax and rightmax.
+2. while left pointer is less than right we make our conditional iterations.
+3. if left height is lesser than right we check if it is less than leftmax, if not then make leftmax to be that value else add leftmax - left pointed height to the answer and then move left pointer ahead.
+4. do the smae in case right height is lesser, just that we mov in reverse direction.
+5. we simultaneously keep editing leftmax and rightmax values in this approach and approax the max most height from both sides.
+---
+## problem 41 remove duplicates in place
+### given a non-decreasing array, return k number of unique elements and edit those values to be first k elememts of array given.
+#### using hashset tc = nlogn + n sincr set takes logn time for insertion, sc = n.
+1. since a set data structure STORES UNIQUE VALUES ONLY, we create a set and add all elements to it.
+2. we then copy all elements to our array and return size of set.
+#### using two pointers tc = n, sc = 1.
+1. we start with first pointer at 0 and second pointer one ahead of it.
+2. we then check if both elements are same, if yes then we move second pointer forward.
+3. if not then we move first pointer one step and copy value of second pointer to it.
+4. these iterations go on till second pointer reaches end, after than we return index of first pointer+1.
+---
+## problem 42 count consecutive ones.
+### given an array with only ones and zeroes find max number of consecutive ones.
+#### using max and temp counters == my sol tc = n, sc=1.
+1. create two counters max and temp and then iterate over the array.
+2. if it is one increment temp else make temp 0 and edit max to be max of temp and max
+3. return max.
+---

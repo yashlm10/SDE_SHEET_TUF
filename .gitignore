@@ -33,3 +33,6 @@ checkPalinLL.exe
 flattenLL.exe
 detect_cycleLL.exe
 loopStartLL.cpp
+rotateLL.exe
+3sum.exe
+trapping_rainwater.exe
