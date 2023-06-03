@@ -445,3 +445,85 @@ now if we dont set map[0] to one, the counter wont increase for this single elem
 #### optimal O(1) solution.
 1. copy value of next node to the intended node and then move pointer of current node to the node after the next node.
 ---
+## problem 31 find intersection of two linked lists.
+### given head reference of two linked lists return their intersecting node or return null if they dont intersect.
+#### brute force method tc = n*m sc=1.
+1. for every node of list 1 iterate over list 2 to check for intersection.
+2. so we use nested loops and check for each node pair.
+3. return null if we come out of loops.
+#### using hashing  tc = n+m sc =n;
+1. we create an unordered hash set and store first list nodes in it.
+2. now iterate over 2nd list and check for intersecting node, if not present return null.
+#### using difference in length of lists tc = 2*n + n-m + m, sc = 1.
+1. iterate over both lists to find length of both,then for the longer list move to the next node diff number of times.
+2. now iterate over both loops simultaneously and check for intersection, if not present return null.
+#### optimal solution using two pointers tc = n+m sc=1.
+1. for both pointers to match on intersecting node, they travel same distance n+m.
+2. initialise both pointers to be heads of respective lists and simultaneously move them ahead.
+3. once a pointer reaches null, move to head of other list and keep moving to the next node till both pointers reach common node.
+4. if any pointer becomes null more than once, it means there is no intersection, return NULL. use a bool variable to check that.
+---
+## problem 32 detect cycle in linked list.
+### given head reference to a linked list detect if there is a cycle present in it else return false.
+### we have to write a cretae cycle function to actually form a cycle in the input end.
+1. traverse to the intersecting and last element and point last element to intersection element.
+#### my sol tc = n sc = 1. in this sol we are editing the listas well.
+1. start iterating over the list and for every node check if itsvalye is INT_MIN id/not then edit its value to be INT_MIN.
+2. if its value is already int_min then return true, if we reach end of the list, return false.
+#### using hashing tc = n sc = n.
+1. use unordered set to store nodes and check if already present for every node.
+2. if found in hashset, return true else if we reach end return false.
+#### hare tortoise method usinf slow and fast pointers tc = n, sc =1;
+1. create slow and fast pointers to be head and run a loop till fast->next and fast->next->next are both not null.
+2. this condition for loop is so that we dont iterate to a node that does not exist i.e after null.
+3. in every iteration of loop we move slow by one step and fast by 2 steps.
+4. if a cycle exists, slow and fast are bound to meet as proved earlier as well.
+5. return false if we come out of the loops
+---
+## problem 33 reverse subgroups of linked list
+### given head reference of a linked list and a number certainly less than or equal to its length, reverse the subgroups and return the ll.
+#### solution using dummy node and three pointers tc = n sc = 1.
+1. we first create a null node adummy, and point it to the head, then deternine the length of the linked list.
+2. now we create three pointers prev initilaised to dummy mode and other two pointers cuu and nxt.
+3. we will run a loop till length is greater thwn or equal to k and inside the loop we will iterate k-1 times in every iteration.
+4. in the beginning or iteration we will set curr to be prev-next and next to be curr-next.
+5. in the nested loop that runs k-1 times, we set curr-next= nxt-next , nxt-next = prev-next, prev-next=nxt and nxt = curr-next.
+6. as we come out of this loop we will have our one supgroup reversed, we not edit prev = curr and at the start of next iteration we will have set curr to be prev-next and next to be curr-next.
+7. after every iteration on one subgroup, decrease length by k.
+8. return dummy-next as the head of modified linked list.
+---
+## problem 34 check if a linked list is palindrome or not
+### given head reference of a liked list, check if it is palindrome or not.
+#### uding extra space
+1. create a vector and store all values of ll in the vector.
+2. now check if the vector is palindrome or not and return answer.
+3. check for cases when ll is null or contains one element.
+#### optimal solution without using extra space
+1. idea is to access the middle element of the list and reverse the part of the list after it, then iterate and check if it is a palindrome or not.
+2. use slow and fast pointer method(slow by one step and fats by two step,return slow as fast reaches end) and now slow is the middle element.
+3. now to reverse, create 3 pointers, prev = slow, curr = slow-next and nxt = curr-next.
+4. now iterate till nxt becomes null and in every iteration do curr-next=nxt-next,nxt-next=prev-next,prev-next=nxt & nxt=curr-nxt.
+5. once reversed, taverse one step from head and middle simultaneously, check if values are same return false if not.
+6. dont forget to check for case when head is null and head next is null.
+---
+## problem 35 find the node in ll where loop starts.
+### given head reference of a linked list find the node at which the loop starts, return -1 if no loop exists.
+#### using hash set tc=n=sc.
+1. create a set and iterate over list, if node not present add it,if present return it.
+#### using hare-tortoise method tc=n,sc=1.
+1. use the same hare tortoise method as already explained in prob 10 and check for cases when head is null or head next is null.
+---
+## problem 36 Flatten a linked list with next and bottom pointers.
+### given root reference of a ll in which elements have either next or bottom or both pointers, return a flattened ll with only bottom ptrs.
+#### using recursion and merge of merge sort algorithm tc = n sc = 1.
+1. first up since there are two possible pointers a node can point at, the input taking process becomes interesting.
+2. we have to first take number of elements in ever bottom list and store it in an array for easier individual access.
+3. now we first create the horizontol list and then by iterating over it and using the array we take input for vertical lists.
+4. now that we have input the linked list we call the flatten function to create a one sorted vertical list.
+5. in the flatten function, the idea is to start from the last vertical list and merge it with second last and the resutant to the list beofore it and so on till we have one vertical sorted list.
+6. to get access to the last list, we recursively traverse to the second last list by the nase case that returns head if it is null or last node.
+7. we then pass the current list and the list after to the merge function which returns one list, which we pass again to the flatten function(recursive) which then merges it with the list before it.
+8. the merge function is the one we use in merge function of merge sort algorithm.
+7. keep adding the smaller pointed node to a new formed ll (by pointing it to the smaller node) and move to the next node of that list and so on.
+8. finally return the merged list and pass it to the recursive flatten function.
+---

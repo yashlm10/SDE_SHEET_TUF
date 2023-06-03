@@ -27,3 +27,9 @@ merge_sortedLL.exe
 remove_nthfromend.exe
 addTwoLL.exe
 delete_node.exe
+find_intersectionLL.exe
+reverse_inGrupsLL.exe
+checkPalinLL.exe
+flattenLL.exe
+detect_cycleLL.exe
+loopStartLL.cpp
