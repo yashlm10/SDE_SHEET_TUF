@@ -602,3 +602,56 @@ now if we dont set map[0] to one, the counter wont increase for this single elem
 2. if it is one increment temp else make temp 0 and edit max to be max of temp and max
 3. return max.
 ---
+## problem 43 number of meetings in one room.
+### given 2 arrays with start and end times of n meetings, if there can be one one meeting at a time in the room find max number of meetings possible.
+#### GREEDY ALGORITHM tc = n+ nlogn+n, sc= n.
+1. in this problem, we use the logic that to accomodate maximum meetings we hav to choose meetings that end early first.
+2. so we use a data structure to store 3 things, start time end time and meeting number(1-indexing) we use struct and give it three props, later in the fuction we initialise an array with this struct.
+3. we first assign values to all the properties using the given arrays and then sort them in ascending order of end time using a comparator function.
+4. the comparator function is of static bool type ( we use static because the sort fuction does not take non-static member), in the fuction we return true if end time of a meeting is less than the other and we return trues for the one with lesser pos in case end time is same.
+5. after sorting, we now assign limit = our first meeting end time = meet[0] , and in answer vector we push the position.
+6. now for all meetings starting from 2 we check if start time is > limit, if yes we edit limit to be that start time and push that position in our answer vector.
+7. we return size of our answer vector as answer.
+---
+## problem 44 minimum platforms required for trains.
+### given two arrays with arrival and departure time of n trains, find minimum number of platforms required for yhe arriving trains.
+#### naive approach using nested loops to find ma overlapping intervals.
+1. the idea is for every train the maximum overlapping intervals of other trains would be the min platforms required.
+2. we run two loops and for every train check for all trains after it in the array.
+3. for every iteration we maintain a count, if this condition is met arr[i]<=arr[j] && arr[j]<=dep[i] || arr[i]>=arr[j] && dep[j]>=arr[i], that means it is an overlapping interval so we increment the count.
+4. after every iteration of inner loop we make ans = max of ans and current count. return ans counter for max overlaps.
+#### optimal using sorting.
+1. the idea is to sort both arrival times and dep times and then for every time check difference in arrived and not departed trains.
+2. to check, we make two pointers i on arrival times and j on departure times and run a loop till i and j are less than n.
+3. if arrival i is less than or equal to departure j, that means one more platform needed,so we increase counter,and move i to next arrival time.
+4. else one platform can be removed, so we move j to next and decrease counter by one.
+5. after every iteration we make ans = max of ans and counter, ie max platforms needed at any instance.
+---
+## problem 45 job sequencing 
+### given the job id(job number),deadline and profit of n jobs, find max profits that can be gained if every job takes one unit time.
+#### greedy algorithm using extra space. m = max deadline, tc = nlogn + n*m, sc = m.
+1. we use struct data structure to store id,deadline and profit properties of every job.
+2. we first sort the array in decreasing order of profits and then find the max deadline possible.
+3. the idea is to try to do a job on the last day available of its deadline.
+4. so we create an array of size = max deadline and set all values to -1.
+5. now we run a loop across the array and in every iteration we check if in the new formed array that deadline number day is -1(available), if yes then we push that job in our answer vector else keep going one day back untill we find an available day or we reach the first day, then we movet to the next job in sequence and finally return the answer vector;
+---
+## problem 46 Fractional knapsack problem.
+### given weight and value of n bags and total weight required, calculate maximum value that can be obtained.
+#### greedy algorithm == mysol tc = nlogn + n, sc = 1;
+1. idea is to pick those bags first which offer more value per unit weight.
+2. so we sort the array in decreasing terms of value per unit weight.
+3. now iterate through the array and keep adding bags untill a bag cannot be added in full quantity.
+4. then calculate the fraction of the bag that can be added and that fraction of value to our answer, then BREAK OUT of the loop and return answer.
+5. remember to convert int to doubl whereever necessary using (double in front of them.)
+---
+## problem 47 subset sums 
+### given array and it's size, return an array of sums of all possible subsets.
+#### using recursion tc = sc = 2^n.
+1. the idea is to traverse the array and at every index make two choices, to take that index value or ignore, doing this we get all possible combinations of some indices ignored while others picked and those we will get the sum of a subset at every dead end(bas case).
+2. thus to implemnt this logic we will use recursion, we first form a function and create an answer array and then pass a few parameters to another recursive function that does the major job for us here.
+3. in the recursive function, we first put the base case to be when the index is equal to n, i.e we have already considered last element and the array has ended, so we add the sum to our array, note that this is the point where every subset ends be its sum 0 (when no element added) or maximum(when all eleents added)
+4. in the function we call the recursive function twice(once when we add the current index, oncebwhen we dont).
+5. the only difference is in the parameters of the function, in the case we pic the element, we add it to the sum in the parameter else we dont add anything to sum in the parameter.
+6. in the end when the recursive function returns with answer array modified, we sort it and return the answer array.
+---
