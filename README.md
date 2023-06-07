@@ -655,3 +655,71 @@ now if we dont set map[0] to one, the counter wont increase for this single elem
 5. the only difference is in the parameters of the function, in the case we pic the element, we add it to the sum in the parameter else we dont add anything to sum in the parameter.
 6. in the end when the recursive function returns with answer array modified, we sort it and return the answer array.
 ---
+## problem 48 unique subsets
+### given an array print all possible unique subsets.
+#### using recursion and a set data structure to store unique subsets.tc = 2^n * klogx sc = 2^n*k, klogx for insertion in set. k = avg length.
+1. the logic is to use the "pick or do not pick algorithm", i.e for every element we either pick it or dont and make all possible combinations, and then store them all in a set after sorting.
+2. since set stores only unique elements, duplicates would be automatically removed, then we copy the set to aur answer and return.
+3. To implement the logic, we create vector of vectors answer array, an auxiliary ds vector, a set and pass these along with the original array and 0 index value to our recursive function, and once the function returns with the set filled, we copy from set to our required vector and return it.
+4. in the recursive function, our base case would be when index is equal to n (size of array), in that case we sort our auxiliary vector ans insert it to our set ans return the void function.
+5. in every recursive call we push curr index element to auxiliary vector and the again call the function with ind=ind+1, then pop back from the vector and again call the fuction with ind+ind+1.
+6. in these 4 lines we basically first pick all, then as we start returning and coming back we keep getting all combinations in every back iteration(going above the tree once reached bottom), then again we go down once we come back to 1st recursive call.
+#### without using set, so we save time of insertion and copying, tc = 2^n*k,sc=2^n*k k=avg length of subsets.(backtarcking)
+1. backtracking is when we make all possible combinations and at every step check for the required condition and stop the calll whenever necessary.
+2. so the logic is, we dont pick duplicates (except the first element after current index),to avoid getting duplicate subsets.
+3. to implement, we first make answer vector and auxiliary vector ds and then sort original array to group all duplicates together.
+4. then we call our recursive function by passing both our answer vector and ds and index 0.
+5. in the recursive function, we first pushback ds in answer so that we keep inserting all unique subsets in start of every new call.
+6. now we run a for loop from i=index to i < n, and inside the function we put the case of duplicates, if i!=ind(except the first element) && arr[i] != arr[i-1] if duplicate present we continue in the loop iteration thus avoiding the duplicates.
+7. then we pushback arr[i] in ds and all the recursive function with ind = i+1 and then popback from ds.
+8. the fuction first picks all elements till max subset is inserted, then comes up the tree and then the for loop comes into action and we get our different combinations.
+9. in this way we coming up the tree, and by popping back we come to 1st recursive call and then from 2nd index again go down in the tree ans insert required unique subsets.
+10. once the recursive function returns to the main function, return the answer vector.
+---
+## problem 49 combination sum 1
+### given an array and a target number, find combinations from that array that sum up to equal the target, if every element can be used multiple times.
+#### my sol, using for loop and recursion tc = 2^n*k = sc k = aveerage size of combinations.
+1. we basically use the same pick not-pick algorithm.
+2. in the main function we initialise our vectors and then in the recirsive function we put our base case and a for loop.
+3. use the base case when target = 0 , push ds in answer vector and reset target to be original value ad return.
+4. else if target is less than 0, simply return.
+5. in for loop from i=inex to n, we push in ds then recall the function with target =target - arr[i] and then pop back.
+6. these three lines along with for loop will form our combinantions.
+#### sol without for loop same tc and sc.
+1. same logic and same main fuction with different implementation of recursive function.
+2. in the recursive function put base case when ind = size of array, in that check if target is = if yes then push in answer array, and return.
+3. now we will pic element, for that if arr[ind] is less than target, use the three lines, push recall pop for our combinations with target =target-arr[ind].
+4. lastly recall the function with ind=ind+1 to iterate over the array to pick elements.
+---
+## problem 50 unique combination sum
+### same as previous problem but this time one element can be used once and unique combinations required.
+1. same approach as previous problem and same implementation, this time we make two crucial changes.
+2. in the for loop put the condition if i!=ind(to pick duplicate if it is first element) && num[i] == num[i-1] i.e there is duplicate lement we continue the iteration thus avoiding the duplicate element.
+3. second change is, since we cant use an element more than once, in the for loop recall function we also do ind=ind+1 so that we move to the next element in array.
+---
+## problem 51 palindrome partitioning.
+### given a string, return substrings such that each of them are palindromes.
+#### using pick not pick and string.substr() function, tc = 2^n*k*n/2 sc = k*x.
+1. the idea is to make partitions using pick not pick method and use a bool function to check for palindromes, and insert in ds if it is a palindrome.
+2. firstly in the main function we initialize the vectors and then pass those to recursive function along with the string.
+3. in the recursive function, first write the base case when index==size of string then push ds in answer vector.
+4. in the bool function we pass 3 parameters, string start and end index, and we run a while loop till start<=end, if not palindrome we return false and increment and decrement start and end respectively in while loop.
+5. in the recursive function we run our for loop for i=index to size of string, in the loop we first check if current substring is palindrome by passing s index=start and i=end to the bool function
+6. if yes then, write the 3 lines push recall pop, we push substring using s.substr(), it takes two parameters, start position and length, so we pass ind and i-ind+1 as length.
+7. we then recall the function with ind = ind +1.
+---
+## problem 52 Kth permutation sequence
+### given n and k find kth permutation of sequence 1,2,3...n.
+#### using recursion (brute force) tc = n!*n + n!logn! n! permutations and rest for sorting. sc = n.
+1. create main function and initialise vectors and string and store from 1 to n in the string using for loop and i + '0' (It's a requirement of the language that any character set used to write C++ source has the digit characters 0 through 9 appear sequentially. So i + '0' converts the integer held in i into the character value that represents that number, as long as it's in the range 0 to 9. 1 becomes whatever value '1' is and so on.) and then call the fuction that returns all possible permutations in a vector of strings and sort it, then print the kth permutation by accessing k-1th element from vector.begin().
+2. in the auxiliary function, we have passes the vector and the string along with indx =0, write base case of index=n, which pushes ds in answer and returns.
+3. run for loop from i=index to n , in the loop swap s[i] and s[index] then recall function with ind =ind+1 then again swap s[i] and s[ind] these three lines wil give us all posible permutations of the sequence.
+#### optimal approach without recursion tc = n^2 sc = n.
+1. the idea is, to place the the correct digit on the current position starting from the first position, in first iteration we can have n possible digits, n-1 in next iteration n-2 in next and so on till all digits are placed.
+2. if the permutation sequence is observed, every element is placed equal no of times on a position, so if we have n=4, we have from 0-5 1, 6-11 2 and so on.
+3. so for implementation, we first compute n!/n i.e (n-1)! and add numbers from 1 to n in a vector of ints.
+4. since we are using 0 based indexing we reduce k ny one, now we create an empty string.
+5. now run a while loop that runs forever (ofc if not broken out), and to the string the stringified version of nums[k/fact] (by to_string function) and then erase that from nums using nums.erase(nums.begin() + k/fact).
+6. if nums is empty break out of loop else edit k to be k%fact and fact to be fact/nums.size().
+7. return the string as answer once out of loop.
+---

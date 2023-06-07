@@ -39,3 +39,9 @@ trapping_rainwater.exe
 meetings_inoneroom.exe
 minimum_platforms.exe
 fractional_knapsack.exe
+subset_sums.exe
+unique_subsets.exe
+combination_sum.exe
+unique_combination_sum.exe
+palindrome_partitioning.exe
+kth_perm_sequence.exe
