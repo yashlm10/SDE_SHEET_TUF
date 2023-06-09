@@ -45,3 +45,5 @@ combination_sum.exe
 unique_combination_sum.exe
 palindrome_partitioning.exe
 kth_perm_sequence.exe
+all_permutations.exe
+ratInMaze.exe

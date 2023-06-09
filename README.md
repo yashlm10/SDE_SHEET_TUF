@@ -723,3 +723,48 @@ now if we dont set map[0] to one, the counter wont increase for this single elem
 6. if nums is empty break out of loop else edit k to be k%fact and fact to be fact/nums.size().
 7. return the string as answer once out of loop.
 ---
+## problem 53 print all permutations
+### given an array or string simply print all possible permutations in any order.
+#### using extra data structure and recursion tc = n!* n sc = n extra space.
+1. every thing same as next solution but we create extra frequency array and initialise all elemnts to zero, in the helper function for loop then we push thenchange freq to 1 then recall function the change freq to 0 and pop this will give all cobinations provided loop runs under the condition freq or current index is 0.
+#### using back tracking no extra space required.
+1. exactly same as last problem.
+2. in the recursive function put the base case ad in the for loop swap recall and swap, this would give required permutations.
+---
+## problem 54 placing n queens
+### given n sized chessboard, find different ways of placing n queens on the board such that no queen can attack the other.
+#### using backtracking and additional boolean function to check for safe positions tc = expo/ n!*n sc =n^2.
+1. the idea is to check all possible places using backtracking and a boolean function to check if the to-be placed sopt is safe or not.
+2. in the main function we create our answer vector and board vector and initialise it using loop as n strings of n dots each and pass it to recursive function with col set to 0.
+3. in recursive function first write base case when col = n, push board in answer and return.
+4. then run for loop for row =0 to row < n and inside loop first check if position is safe, if yes then edit that cell to be Q then recall the function with col++ and then reset the cell to be '.' .
+5. these three lines will give us all possible combinations, by first traversing the whole row then by loop the whole column then the 2nd column and while backtarcking it resets the cell if changed.
+6. now in the boolean safety check function we pass the row col board and n parameters, idea is to check for q in left side of same row, left side lower and upper diagonal(not needed to check right side as we know no q is placed there).
+7. to do the same we run while loops with necessary conditions and in every iteration we check for q and increment decrecrement row/col as required.
+#### same approach just optimising the safety check function tc same sc = n.
+1. in the main function we initialise 3 additional vectors leftrow size n, lowerdiagonal size 2*n-1 and upperdiagonal size 2*n-1 the size is because there can be 2*n-1 different diagonals for any cell on a board.
+2. the lower diagonal is marked by simply row+col and on every lower diagonal cell same number would be present so marking a lower diagonal means ther is one q present there, similarly in case of upper diagonal its n-1+col-row to fom upper diagonls and it works same as lowerdiagonal.
+3. in the for loop instead of bool function we check if leftrow[row], lowerdiagonal[row+col],upperdiagonal[n-1+col-row] are all zero then and only then we move into the loop iteration.
+4. now when we add q we edit all three vectors respective cells to 1 and when we remove we edit it to 0, rest backtracking process is same as previous approach.
+---
+## problem 55 solving sudoku 
+### given an incomplete sudoku board completely solve with 3 traditional sudoku rules satisfied.
+#### using matrix and backtracking tc = 9^(n^2) constant sc.
+1. the logic is, for every blank space we try filling all 9 numbers and check its validity, if valid we move ahead and at any future juncture we find a position impossible we backtrack and try another number till we fill all blank spaces.
+2. our main function is a boolean function with board paased as parameter, boolean to check if it is solvable further or not.
+3. in this function we first run 2 nested loops to acces every cell and find the cell marked '.', then we run a for loop for char's from '1' to '9' and check for its validity in that position using if valid function.
+4. if it is valid, we edit that cell value to be that char and then in if statement recall function as condition, if true we return true else we revert back the value to '.', the function on recall returning false means we have reached an impossible point so we revert the char value and try another.
+5. after coimg out of the for loop of 9 characters we return false, we will reach this point if none of the 9 characters are valid, i.e an unsolvable position, at the end of the function we return true i.e we have placed all at right pos.
+6. now in the isValid boolean function we pass the current row and column and the character, then we crun a loop and check in row and column, to check in the submatrix, we use board[3*(row/3) + i/3][3*(col/3) + i%3] in row, we reach the sub matrix by first term then iterate through first row by changing columns then move to next row, since it row we have i/3 it move 3x slower than col i%3 so that we can traverse through whole submatrix.
+7. return true once checked.
+---
+## problem 56 rat in a maze.
+### given n*n size maze with few blocked blocked by 0 and rest oopen by 1, find all paths a rat can take to reach right bottom from top left if it can move in all 4 directions.
+#### using backtrcking and additional data structure for hashing writing different code for all 4 directions tc = 4^mn sc = mn.
+1. in the main function we initialise our answer array and a visited vector to track visited cells and initilise it identical to maze with all cells 0 and then pass these along with row=0,col=0 and an empty string to the recursive function.
+2. in the recursive function we write the base case when rat reached last cell then push the string in our answer vector.
+3. now we check for all 4 directions whichever cell we are in, first we check if the cell we are movin into is not out of bounds then we check if it is visited, then we check if that cell value is 1 or not, if these conditions satisfy for a direction we move in it and mark the current cell visited and then recall the function with row/col edited and add the direction to the string, and after that again mark the cell not visited for when we backtrack.
+#### same solution just instead of writing all 4 directions separately, we run a loop and write it all once.
+1. in the main function we create two additional arrays for row 1,0,0-1 and for col 0,-1,1,0 these are if commands are in order DLRU, 
+in the recursive function, insted of writing 4 times, we run a loop of 4 iterations and add di[z] to row and dj[z] to col and add that index of string DLRU to our string in every recall.
+---
