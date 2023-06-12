@@ -768,3 +768,81 @@ now if we dont set map[0] to one, the counter wont increase for this single elem
 1. in the main function we create two additional arrays for row 1,0,0-1 and for col 0,-1,1,0 these are if commands are in order DLRU, 
 in the recursive function, insted of writing 4 times, we run a loop of 4 iterations and add di[z] to row and dj[z] to col and add that index of string DLRU to our string in every recall.
 ---
+## problem 57 nth root of a number
+### given n and m find nth root of m, variant is find upto 6 decimal places.
+#### using binary search n*log(m + 10^d), d = no. of decimal places.
+1. we basically use binary search with doubles, and along with hi and lo we initialise eps variable 1e-6, so that we can find upto 6 decimal places.
+2. we run loop while hi-lo is > eps and keep changing hi/lo to mid if power function is hi/lo , at last we return low as we cannot find accurately over 6 deci places, also <= case is low =mid.
+---
+## problem 58 matrix median
+### given a 2d matrix with r*c odd, and every row is sorted in ascending order, find median of elements of that matrix.
+#### using binary search.
+1. theres another approach where we store all elements in a data structure and then sort them to get required element but that will take extra space.
+2. so we find minimum and maximum of the matrix and make middle, then count no of elements less than or equal to the middle element, if less, we edit mini to be mid +1 else max = mid, we run loop while mini< maxi, return mini as we come out of the loop.
+---
+## problem 59 search single
+### given a sorted array with all elements occuring twice except one, find the element.
+#### in tc = n, by traversing whole array.
+1. one approach is to make two consecutive pointers,initially pointing to first two elements and increment by in every iterartion, if at any point both point at differernt values then return lo, else if we come out of loop that runs till faster pointer reaches 2nd last element, return last element.
+2. another approach is using XOR, since p^0 = p and p^p = 0, calculate xor over entire array and return eventual value as answer.
+#### optimal approach using binary search.
+1. set lo and hi pointer to first and last element, and run loop while lo < hi, set mid to be lo+hi/2, now we will have to operate differently for when mid is even and when mid is odd.
+2. idea is to check if single element is before mid or after, in case of mid = even, this means if single element is not before mid then due to the pattern mid element = mid+1 element so we set lo = mid, else mid element = mid-1 element, so we set hi = mid, else if both are not the case then we have our abswer as mid element, similarly for the case when mid is odd.
+---
+## problem 60 search an element in a rotated sorted array
+### given a soerted array after rotating it about a pivot, find if the target element is present, if yes then which position.
+#### binary search tc = logn
+1. basically we consider it as two separate sorted arrays, first we initialise lo=0 and hi=n-1 pointers, then run a loop while lo is less than or equal to hi.
+2. now we initialise mid and heck if it is the target, return mid if yes.
+3. now we check if low element is less than or equal to mid element, if yea then it means we are in same sorted array, so now er check if the target is present in this range of lo-mid, if yes then we set hi to mid else it would be present in another sorted array so we edit lo = mid+1.
+4. if lo is greater than mid then definitely mid is in different sorted array, so we check if element is present in mid to hi, if yes then set lo to mid else we set hi to mid -1.
+5. oncewe come out of loop, it means element is not present so we return -1.
+---
+## pr0blem 61 median of two sorted arrays.
+### given two sorted arrays, find the median, if two medians return their average.
+#### ineff approaches.
+1. one idea is to put both into one array and sort it and find median.
+2. else take two pointers and insert smaller one in a third array and return once reached median value.
+#### efficient approach tc = log(min(n,m)), sc =1 using binary search.
+1. the idea is to divide both arrays into two parts such that the left of both parts are the elments to the left of median.
+2. we will apply binary search in the smaller array, so take n to be smaller than m, if m< n, then recall function with both arrays reversed.
+3. now we calculate median by n+m+1/2 and set lo and hi.
+4. now run loop while lo<=hi , in the loop calculate first cut by lo+hi/2 and other cut by simply median - cut1.
+5. now we initialise 4 numbers 1 on either side of each of the two cuts. and if cuts are last or first element we set them to be intmax,intmin accordingly.
+6. now we check if l1 is less than equal to r2 and l2 is less than r2 where l are element left of cut and r are to right of cut, if this satisfies we return max(l1,l2) else max(l1,l2)+min(r1,r2)/2.0 but if l1 > r2 we have to shift cut to left, so we set hi = cut-1 else we have to shift cut to right so we do l0 = cut+!.
+7. we we come out of while loop we have no solution so return 0.0.
+---
+## problem 62 kth elemnt in two sorted arrays
+### given two sorted arrays find the kth elemnt if two arrays were a single sorted array.
+#### using two pointers tc = n+m sc=1.
+1. in this we initialise two pointers pointing to first elements of both arrays, and create a counter=0 ans a current element holder.
+2. now we run a loop while none of the array ends, in every iteration we will check which element pointed to is smaller, we store that element as currrent and increase counter.
+3. if couter is k i.e we got our element so we return curr.
+4. if we come out of loop, that means one array ended, we check which one, and in the other we return arr[a + k - counter -1];
+5. return1 is no answer, only happens when k>m+n so dw.
+#### using binary search tc= log(min(m+n)) sc=1.
+1. same as we did partitioning in last problem, but in this case out cuts may go well out of bounds of the two arrays, so we set lo to max(0,k-m), if k is more than m then surely we will have atleast k-m elements from first array, and set hi to min(n,k) if k is less than n then surely we wont take elements after k in first array.
+2. restricting these bounds prevents our cuts from running out of bound, so the rest of the problem can be solved easily in the same way as before.
+---
+## problem 63 allocate pages to students.
+### given an array of number of pages in different books and number of students to be distributed to, find minimum of max number of pages to a student, if every student gets atleast one, one book can be given to only one student and books to be distributed in contiguous manner.
+#### using binary search by first creating a search space. tc = nlogn sc=1.
+1. the idea is to create a search space by determining the minimum and the maximum possible answer, for that we can say that minimum answer would be the minimum element in a case when all elemnts are same and b = size of array; and maximum answer possible is sum of all elements when b = 1.
+2. so we first traverse the array and find sum and minimum element and then set low to be the minimum element and hi = sum.
+3. run a loop till lo <= hi and set mid = lo+hi/2, now we start allocating pages and move on to the next student if allocation exceeds mid value move on to next student and so on, in case any element exceeds mid value, stop the loop and edit lo to mid+1 to increase mid value.
+4. else if students is less than B (less than b because we initialise students to 0 and so dont count first student),then inrease lo to be mid+1 else hi to be mid-1.
+5. once we come out of loop return lo.
+---
+## problem 64 aggressive cows
+### given n number of stalls and c no. of cows, and position of n stalls, find the largest minimum distance between two cows possible. That means is there are 4 cows and distance between them is a,b,c we have to maximise min(a,b,c).
+#### using brute force proving it is a monotonic function tc = nm, sc = 1.
+1. in this approach we start by placing all cows consecutively so that initial minimum distance is 1, and the maximum minimum distance possible would be last - first(in case when 2 cows present), so we run a loop from d=1 to max distance.
+2. for every minimum distance we place other cows and check if placing them is possible.
+3. for that we run a loop from i=1 to n, we initialise k by placing one cow on first stall, then check if the next position in loop - k is >= minimum distance, if yes then we cows--, edit k to be the current stall, till we exhaust cows , in that case we return true, else return false.
+4. we return max of all possible minimum distances.
+#### using binary search tc = nlogm sc = 1.
+1. in this approach we first establish our search space to be from 1 to last element - first, we can say for sure the answer will lie between thee two values.
+2. now run a loop while lo<=hi , set mid and then check if mid is a possible minimum distance by the same function we used in previous approach.
+3. if yes, then it means our answer will be greater than this mid element as we need max answer, so we move lo = mid+1, else we move hi = mid-1.
+4. eventually when lo > hi , return hi as it would be the max minimum distance possible.
+---
