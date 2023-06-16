@@ -846,3 +846,90 @@ in the recursive function, insted of writing 4 times, we run a loop of 4 iterati
 3. if yes, then it means our answer will be greater than this mid element as we need max answer, so we move lo = mid+1, else we move hi = mid-1.
 4. eventually when lo > hi , return hi as it would be the max minimum distance possible.
 ---
+## problem 65 min heap implementation 
+### heap is a complete tree ( all levels complete except the last one and last level has all keys as left as possible)
+### min heap(max heap) is a heap in which every node is lesser(greater) than its children nodes, least(max) being the root node.
+### binary heap is the one in wich every node has two children nodes.
+### given n commands to either insert element in heap or remove the least element and return it.
+#### using priority queue data structure to implement heap.
+1. by default priority queue stores elements as per max heap but to initialise it as min heap p_q<int, vector<int>, greater<int>>.
+2. now according to the command, p_q.push(i), else in answer vector push p_q.top(), i.e the minimum element, and then pop it using p_q.pop().
+#### implementing min heap using array 
+1. to access left child return 2*i +1, to access right return 2*i +2 to access parent return (i-1)/2.
+2. void insert function set heap[size] = value(we are not pushing back because when we initilaise heap we allocate n size already).
+3. then we heapify using swap (by strting from bottom and swapping parent if it is grester) and also increase size by one.
+4. int extractMin fuction to remove the root (smallest) element and return its value, if size is one simplt decrease size by one and return heap[0]
+5. else store the value, then decrease size then edit root to be the last element of heap and then heapify, return stored value.
+6. void minheapify funtion initialize left and right and smallest = current element, now if left < size(so that ir dosent go out of bounds) and element at left is smaller, then edit smallest to be left, now if right is less than size and element at right is smaller than the smallet element, edit smallest to be right.
+7. now if smallest is not i, we have to swap heap[i] and heap[smallest] and again call recursively heapify function with i = smallest.
+8. in the main min_heap function, initialise vector heap with pre allocated memory n and an answer vector, if command says insert, simply call insert function, else push extractmin function to the answer array(this will remove the element as well), return answer vector.
+---
+## PROBLEM 66 kTH LARGEST/SMALLEST ELEMENT
+### given a vector and an interger k, fing kth largest/smallest element.
+#### using priority queue to implement heap tc = k+ (n-k)logk, sc = k.
+1. use priority queue to store elements from the vector (max if largest, min heap if smallest)
+2. then pop k-1 elements and return the top element after.
+#### using quickselect algorithm tc = O(n) avg case, sc = 1.
+1. the idea is to implement quick sort and then if the pivot is smaller we find in right half else left half.
+2. initialise left = 0 and right =n-1.
+3. run infinite loop and initialise index = partition function passing the vector and left and right to it.
+4. the check if index = k-1, return element at index, else if index  < k-1, left = idx+1, else right = idx -1.
+5. in the partition function , set pivot is left indexed elemnt, initilaise l = left+1 and r = right.
+6. while l<=r if element at l is less then pivot and at right is greater, swap l and r elements and l++ r-- 
+7. now if element at l is greater than pivot, move l ahead and if r is lesser, move r back a step and continue loop.
+8. then once out of loop, swap pivot and r and then return r, this function in every loop iteration basically segregates all greater to the left of pivot and all smaller to right of pivot, similar function can be writtem if kth smallest has to be found.
+---
+## problem 67 k max sum combinations 
+### given two arrays of size n, find first k largest sums possible from elements of both arrays.
+#### brute force tc = n^2 + nlogn sc =n
+1. run nested loops amd calculate all possible combinations possible and store in an array.
+2. sort the array and push required sums to answer array
+#### using priority queue to implement heap and set for uniqueness tc = nlogn sc = n.
+1. the idea is to use set to check if combinations are repeated, and store tuples in max heap sum,(indices) and pair of indices in set.
+2. firstly we sort both arrays, then create a max heap and push largest sum and largest indices into the max heap, and create set and push max indices into the set, we use pair to store values so remember to use {} around every pair.
+3. now run loop while k>0, and in every iteration reduce k by one, in every iteration store top of maxheap and push the sum in answer array, now we check if x-1,y and x,y-1 indices are present in set if not we add them with their elements sum to the set and max heap and the continue iteration.
+4. finally once we are out of loop, return answer array. be careful with use of pair and remenber to sort array.
+---
+## problem 68 find median of a running data stream.
+### given an array to be input as running data stream print median at each input point if there are n entries.
+#### using sorting  tc = n^2.logn sc = 1
+1. at every element, sort the array and find middle element.
+2. an optimised version of this approachis, at every new entry since it is previously sorted, using nested loop find element just greater than current element and insert it there using vector insert(position, val), then determine middle element.tc = n^2 sc = n.
+#### using minheap and maxheap tc = nlogn sc = n.
+1. the idea is to divide inputs in two halves lower(using max heap) and upper half using (min heap) and at every point try to maintain equal elements in both halves.
+2. first create max and min heap, then check if max heap is not empty and element is less than max heap top then insert in max heap, now if max heap size is more than min heap + 1 then add top of max heap to min heap and pop it from max heap.
+3. else insert in min heap and again check size, if more in min heap add to max heap, now check if size is odd if yes then median is top of half which has more size else it is avg of top of both halves.
+4. print median, remember after initialising both halves run a loop for size =1 to n, remeber both heaps coincide at median point with their tops pointing to median point, so lower half is max heap and upper half min heap.
+---
+## problem 69 merge k sorted arrays
+### given k sorted arrays, merge them into a single sorted array.
+#### brute force tc = nklognk sc = nk.
+1. push all elements into a single vector and sort it.
+#### using divide and conquer recursion method. tc = nklogk sc = nklogk.
+1. idea is to keep dividing vectorsmin two parts until we have two or one vector and then merge them using two pointer method.
+2. first call helper function and pass given vectors and 0 as start and k-1 as end.
+3. in helper function, write base cases, start=end return [start] pointed vector, if start+1 == end i.e two vectors, return their merge
+4. else we recursively call the same function twice for either halves, start to mid for one and mid+1 to end for second.
+5. in the end return the merge of these two call results.
+6. merge function is same as we have been using with help of two pointers.
+#### using minimum heap. tc = nklogk, sc = nk.
+1. idea is to add first elements of all arrays and then returning top of min beap(min element) now if that array isnt empty we add another next element of that array to heap.
+2. create min heap that can store tuple, pair of a value and a pair so that we can store indices as well.
+3. now iterate over all arrays and push first element of each into the heap, theb run loop while heap is not empty.
+4. we push heap top to answer array and pop heap top and if that array we picked heap top from is not empty, ie j+1< size  we will add next element of that array to heap.
+---
+## problem 70 k most frequent elements
+#### using quickselect algorithm n^2=tc, sc =n.
+1. similar to how we found kth smallest element, but in this instead in partition function we use our map key,value pairs and shift all less frequncy left words.
+2. using map and vector, we assign all unique numbers to a vector and perform the quick select algo on it.
+3. we use pivot = left + rand()%(right-left) to select a random pivot.
+4. use map in partition function to segregate low freq and gi freq elements.
+#### using heap nlogn = tc, sc =n.
+1. use map/vector to store values and their frequencies in pairs.
+2. then add them pairs to a heap, and one by one extract k max freq elements.
+3. add them to a vector, sort it and return.
+#### using bucket sort algo tc = n, sc = n.
+1. important point *vector<int> xyx[n]* creates an ARRAY of n VECTORS .
+2. store all elements in a map with their frequencies and then create an array of vectors and of size = max of frequencies i.e n.
+3. then add elements to thier respective frequency bucket(vector) and then traversing from max value pick k elements that would give us the answer.
+---
