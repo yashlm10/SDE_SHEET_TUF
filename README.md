@@ -933,3 +933,124 @@ in the recursive function, insted of writing 4 times, we run a loop of 4 iterati
 2. store all elements in a map with their frequencies and then create an array of vectors and of size = max of frequencies i.e n.
 3. then add elements to thier respective frequency bucket(vector) and then traversing from max value pick k elements that would give us the answer.
 ---
+## problem 71 Binary Tree Inorder Traversal.
+### given a binary tree, print node values trversing the tree inorder manner.
+### inorder traversal means, left subtree then parent node then right subtree.
+#### iterative method using stack data struture tc=sc= n.
+1. idea is to keep moving from root to the left most leaf node while pushing all the nodes on the way to a stack.
+2. once we reach null, print top of the stack value and pop it then move to the right child node and do the same till we reach null.
+3. as we get null we will keep printing top values of stack and this thus give us the inorder traversal list of nodes.
+#### using recursion tc = sc = n.
+1. idea is to travel to the left most leaf node recursively then push the value into answer vector and then move to right recursively.
+2. since we are using recursion, it will back track to parent node print it and move right then again back track to previous levels and so on we will get the required traversed list.
+---
+## problem 72 Binary tree Preorder traversal.
+### given a binary tree, print node values traversing the tree preorder manner.
+### preorder traversal means, root then left subtree then right subtreee.
+#### iterative method using stack data struture tc=sc= n.
+1. the idea is to push the root into the stack and then to the answer vector, then push the right child to the stack first then the left chil so that the left child can be accessed first.
+2. we initialise our vector and stack and for the case when root == NULL, we return empty vector.
+3. push root to the stack, then run a loop while s is not empty, then make a node to carry top element of stack, pop the top element and push its value to the vector.
+4. then if right child is not null add it to stack first then check if left child is not null, push it to the stack, then in the next iteeration of loop we will print top element and again check for left and right and so on we will get our preorder traversal of nodes.
+#### using recursion tc = sc = n.
+1. first put the base case, when root = null return the void function.
+2. since in preorder, we first print root then left then right, first push root value to the answer vector then make two recursive calls, first for root's left child then for roots right child.
+3. these calls would backtrack and give the required preorder traversal.
+---
+## problem 73 Binary tree Postorder traversal.
+### given a binary tree, print node values traversing the tree postorder manner.
+### postorder traversal means, left subtree then right subtreee and then the parent node of them.
+#### recursion tc=sc=n.
+1. first put the base case, when root = null return the void function.
+2. now we call the function recursively twice, first passing root->left then root->right, and then we push root value to answer vector.
+3. these calls would backtrack and give the required postorder traversal.
+#### iterative method using two stacks tc = n, sc = 2n.
+1. idea is to push values in one stack in preorder manner and then push them to another stack.
+2. then we push these values to answer vector to get required traversal.
+3. we initialise vector and two stacks, and push root in one stack.
+4. then we run loop while the first stack is not empty, and push the top node to second stack, and pop it from the first.
+5. then we check if left child is null, if not then push it to first stack, then the right child.
+6. this way in the next iteration we will first push the right child to another stack and then the left, so that when we pop elements from second stack we first get the left thrn right then parent.
+7. in the last step, simply push top of stack 2 to ansswer vector and pop the top in every iteration till its empty.
+#### using one stack only tc = sc = n.
+1. we first initialise vector and stack and check for the case when root is null.
+2. run a loop while root is not null or stack is not empty, check is root is not null, then push into stack and move root to root->left, else(i.e root is null) so we create a temp node and initialise its value to be s.top()->right that right chil of parent node whose left is null, now if this temp is also null, this means we have reached a leaf node, so we push this to our answer vector and pop out of stack.
+3. no we check the case if the node we just pushed is the right child, if yes then the next node to be printed is the parent node which is at the top of our stack so we push it to our vector and pop it out of stack.
+4. the else case in which the right child is not null, we move root to be this right child so that we can print this subtree.
+5. return answer vector.
+---
+## problem 74 and 75 Morris inorder/preorder traversal.
+### given a binary tree, print inorder and preorder traversal of nodes using noextra space by morris method.
+### in morris traversal, we basically use threaded binary trees, which means, the right most node of a left subtree points to the parent of that subtree. we make use of this to traverse the binary tree.
+#### morris threaded binary tree traversal using no extra space and tc = n.
+1. we run a loop while root is not null, and check if left sub tree exists, if not we push the current node to our vector and move to right child
+2. if it does exist, we traverse to the right most node of this sub tree using while loop, now if it is pointing to null, in case of in order traversal, we simply point it to current node(parent of this subtree) and move current node to its left child and in case of preorder traversal,we point right most node to current node and push value of current node to answer vector then move current to left subchild.
+3. if it is pointing to the current node already, this meanswe have traversed this subtree already, so in case of inorder traversal, we remove this link by pointing it to null and push back this node to answer vector and move current to right subchild whereas in case of preorder traversal, simply remove link and move to right child of current node.
+---
+## problem 76 LEFT/RIGHT VIEW of binary tree.
+### given a binary tree reference to its root, print the left view and right view of the same.
+#### using recursion tc = n, sc = height if tree.
+1. the idea is to use concept of levels, if root is at level 0 and it keeps increasing for every child node.
+2. we pass answer vector root and level 0 to recursive function.
+3. in the function, base case is when root is null we simply return. now, the idea is, if the size of answer vector is equal to level, push it in answer vector.
+4. for left view, if we push left most element and then recursively come to its right sibling, the level would be one less than size, so we dont push the right one.
+5. basically at every level we push the left most and traverse every node recursively, since we have started from level 0, at every left most element, level = size of answer which is no. oflevels travelled till now.
+5. for right view, we first recursively call root->right then left, contrary to left view, everthing else is same.
+---
+## problem 77 and 78 BOTTOM/TOP view of a binary tree.
+### given a binary tree reference to its root, print the bottom/top view of the same.
+#### using queue and map data structure tc = sc =n.
+1. the idea is to use the concept of line wise traversal, root being at line 0 and each node to the left being -1 and to the right being +1.
+2. we use a map with key as the line and its value as the node(value) which is on tha line, while we use a queue to store node and its line in pairs in it.
+3. so we first create a queue and a map with necessary data types and push root node and its line 0 to the queue.
+4. now we run a loop whie queue is not empty, in the loop we access the front element of the queue and store its first value to a temp node and its second value to a line int and pop it from the front of the queue.
+5. now since in bottom view we need the last element on any line we simply assign map with key line a value of temp->val, if there alredy was a node on the same line it would get edited and we would get the last node.
+6. for top view, we first need to check if this line has already been inserted in the map, if yes we dont have to edit it, cuz we want the first element on the line else we insert the current key value pair.
+7. now we check if left child of temp node is not null, we push the child and line-1 to queue similarly we push/not-push the right child with line+1.
+8. after coming out of the while loop, we push all the nodes from our map to out answer vector and return it.
+---
+## problem 79 all 3 types of traversals in one iteration 
+### given root reference of a binary tree print all three traversals in one iteration
+#### using stack and pair tc=sc=n.
+1. the idea is, if a particular node is visited for the first time, it means it has to be added to pre order trv, if visited second time then inorder and if visited third time then post order.(this can be determined by observation and this is the base logic)
+2. we initialise a stack that takes a pair with node and int data types and create 3 different arrays pre, in ,post.
+3. firstly we push root,1 in the stack and then run a loop while stack is not empty.
+4. now we store the top pair in the stack and pop it, no the second entry of pair is the number of times the node in first entry has been visited.
+5. so if second value is 1, we push the first in pre vector, increment second value and again push the edited pair to the stack.
+6. now we check if left child exists, we move our node to its left child and push into te stack with visited freq 1.
+7. if second valueis in, we push first node to in vector, increment the second value and push the edited pair to the stack.
+8. now we check if right child exists, if yes we move to the right child and push that node with visited freq 1 into the stack.
+9. for all other values of second value (3 basically), we simply add the first node to the post vector, we dont have to push anything to the stack in this case, as after 3 visits it wont be visited and obc its childrensub trees must have been visited.
+---
+## problem 80 vertical order traversal of binary tree.
+### given root reference of a binary tree, print vertical order traversal from leftmost to rightmost node printing elements from top to bottom on every line and in ascending order if same coordinates of two elements, duplicate nodes are present as well.
+#### we will use a special data structure, map<map<multiset>> and queue tc = nlognlognlogn sc = n.
+1. the idea is to traverse the tree and assign a vertical and a level value to every node, we store these 3 values in a special data structure.
+2. first we need to travel from left most to right most, so we select a map as it stores in ascending order, now in every line we need to print from top to bottom, so second element of first map is also a map so that we can get ascending order of levels, now since duplicates are present in tree and we have to print elements having same verical and level in ascending order, we set second elelemt of second map as a multiset.
+3. now we create a queue with pair entries, first bein a node and second being a pair of vertical and level values.
+4. firstly we push root,{0,0} in the queue and then run a loop while queue is not empty.
+5. now we access the front element of the queue and pop it, we store first element of queue in a temp node and set x = first of second element(vertical), and y = second or second element(level).
+6. now we assign vetical key level key and multiset value to our data structure, nodes[x][y].insert(temp->val).
+7. now if left(right) element exists, we push it into the queue with the respective node and {x-1,y+1} for left and {x+1,y+1} for right.
+8. now we have assigned all coordinates to all nodes so we will now push our answers to the answer vector.
+9. run loop for p in nodes and a nested loop for q in p.second, for every iteration in inner loop we create a col vector, and insert the whole multiset of that vertical,level to col vector and then push col vector to answer vector.
+---
+## problem 81 find root to node path
+### given root reference of a binary tree and a target node, find a path from the root to that node.
+#### using recursion tc=sc=n
+1. the idea is to first check if the current node is the target node, if not then check left and right sub tree recursively.
+2. in this recursive approach, the path would automatically get added to the array in every step and if target is found it would rreturn with the path.
+3. we pass our root , answer vector and target to a bool recursive function and for root==null return false.
+4. now we add the root(current) node to array and check if it is the target node, return true if yes
+5. else we check if left or right subtree had the target, by calling recursively for left and right subtree and return true if yes.
+6. if this condition is not true, it means target is not in the tree so we popback from array and return false.
+---
+## problem 82 find max width of a binary tree
+### given root reference of a binary tree find the max width of the binary tree if empty nodes in between are to be counted as well.
+#### using queue and pair DS and level order traversal tc=sc=n.
+1. the idea is to travel level order wise nd on every level run a loop to traverse every node on that level and assign an index to it, left child being 2*i+1, right being 2*i+2.
+2. we push node and value as pairs in the queue and firstly push root and 0 to the queue.
+3. to avoid overflow, we set first element as curr_min and for every traversal in a level we make curr id = value of a node - curr_min.
+4. idea is to push left and rigth child if they exist for every node, by creating a temporary node and poping out the top of the queue everytime.
+5. we set leftmost and right most to be the curr_id for first and last node of the level, later we return answer as rightmost-leftmost+1(max).
+---
