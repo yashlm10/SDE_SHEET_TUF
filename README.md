@@ -1054,3 +1054,78 @@ in the recursive function, insted of writing 4 times, we run a loop of 4 iterati
 4. idea is to push left and rigth child if they exist for every node, by creating a temporary node and poping out the top of the queue everytime.
 5. we set leftmost and right most to be the curr_id for first and last node of the level, later we return answer as rightmost-leftmost+1(max).
 ---
+## problem 83 traverse level order in bt and print the nodes
+### given root reference of a binary tree traverse level order in bt and print the nodes
+#### using queue tc=sc=n
+1. the idea is to push the root in the queue and then run a loop while queue is not empty.
+2. now create an empty array and run a loop for all elements in the queue.
+3. in every iteration store value of front element in the queue and push left and right child in the queue.
+4. in this way we will have all the elements of next level stored in the queue and all elements of current lvl printed.
+5. push the current array to the answer before entering the second iteration of while loop.
+---
+## problem 84 find max height of a binary tree 
+### given root reference of a binary tree find its max height/depth
+#### using queue tc = n=sc.
+1. exactly like last problem just increase count for every iteration of while loop i.e no. of levels = height.
+#### using recursion/ post order traversal tc=n, sc = h (height of bt).
+1. do post order traversal and return 1+max of left/right height.
+2. base case is ofc when root is null.
+---
+## problem 85 Diameter of binary tree
+### given root reference of a binary tree find its diameter.
+#### using recursive post order traversal,tc=n, sc = h(height of bt) i.e the recursion stack space.
+1. in the parent function initialise diameter to be 0, call recursive function passing root and diameter to it.
+2. int the recursive function, base case it when root is null and return 0.
+3. the since we have to traverse post order call left and right recursive functions.
+4. the edit diameter to be max of currrent value and left height + right height.
+5. return 1 + max(lh + rh) finally.
+6. remember length of diameter is one less than number of nodes on the path so in diameter we just do lh+rh.
+---
+## problem 86 Balanced Binary Tree
+### given root reference of a binary tree find if it is balanced(diff in lh and rh more than 1) or not.
+#### my sol using extra bool variable and traversing entire tree.
+1. exactly like the last problem, just create a bool varible in place of diameter and pass to recursive function.
+2. in the recursive function, everything is same as last problem, post order trv, just after left anf right height is checked, we check if their diff is more than one, we edit bal to be false and continue.
+3. this is not optimum sol as even after we find out that it is not balanced we continue to traverse the rest of the tree.
+#### optimum sol without using extra bool variable tc=n, sc = h(height of bt) i.e the recursion stack space.
+1. in the parent function, we return false if recursive function returns -1 else we return true.
+2. in recursive function we traverse post order as usual, just that after ever left and right call, we check if it is -1(that would mean imbalance has been found already) we return -1.
+3. because of this the recursion without moving forward folds back to the top recursive stack and returns -1.
+4. after left and right traversal, we check if abs(lh-rh) is > 1 if yes we return with -1 ( this is the imbalabce checking line).
+5. we return max(lh,rh)+1 for the recursive function otherwise to keep calculating left and right height.
+---
+## problem 87 Lowest Common Ancestor of a pair of nodes in binary
+### given root reference and a couple of nodes of a binary tree, find LCA of the two nodes,i.e first node where their paths back to the root meet.
+#### using recursive post order traversal
+1. the idea is, either lca is in left or right subtree, if neither then the current root is the lca.
+2. we will traverse post order recursively and every time when we backtrack to parent node we will return null if we dont find either of the p,q nodes, or the node p or q them selves if we find them.
+3. in base case, if root is either null,p or q, we return it. then we recursively call left and right subtree to traverse post order.
+4. then we check if left is NULL, we return right(that means we found lca in right subtree or nothing), else if right is null we return left, else if both are not null, this means root is our lca so we return root.
+---
+## problem 88  Identical Binary trees
+### given root reference of two binary trees, determine if they are identical
+#### using recursion tc=sc=n
+1. we will do preorder traversal and check values at every node, base case would be when both are null(true) else either are null(false).
+2. we return, if val is same and left and right subtrees for both are same, we return true else false.
+---
+## problem 89 Zig Zag traversal of trees
+### given root reference of a binary tree print the level order zigzag traversal for the same.
+#### using level order method.
+1. the idea is to follow simple level order traversal and using bool var, check if current level is to be printed ltor or rtol.
+2. in every level traversal, we initialise an array of size that of the level.
+3. if it is left to right using ternary operator we edit i position values to be that of q.front else size-i-1 position values to be that of q.front.
+4. after every iteration of a level, switch the bool value so that next level is marked to be opposite.
+---
+## problem 90 Boundary Traversal of Binary tree
+### given root reference of a Binary tree, print boundary traversal of its nodes in anti clockwise manner.
+#### breaking in three parts tc=sc=n.
+1. the idea is to divide the problem into 3 parts, i.e boundary nodea are either left boundary, right boundary or leaf nodes.
+2. in the parent function we will initialise a vector return it as it is if root is null.
+3. now since root is common to both left and right boundary, we will add it beforehand(if it is not a leaf).
+4. we can add a separate function to  check if a node is leaf node.
+5. now after adding the root,  we will call 3 functions addleftb, addleaves, addrightb in the same order and finally return the vector.
+6. now in the left boundary function, we initialise a cur node to be root left, then run a loop while this cur is not null.
+7. now if the node is not leaf, we will add it to the res array, then move to its left if not right child.
+8. next in the add leaves function, add node to resultant if it is leaf and return then if left exits recursively call its left subtree and if right exists, recursively call right sub tree.(kind of pre order trv).
+9. finally for right border, everything is same as left border, just create a temp array and add the nodes to it, after exiting the while loop, add the reverse of this temp array to the resultant array.
+---
