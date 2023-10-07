@@ -5,8 +5,8 @@ SDE SHEET TUF  problem solution and concepts
 ### for any cell in the matrix marked 0, mark the entire corresponding row n column 0
 #### first approach with 2*n*m tc and n space complexity
 1. create two arrays and initilise all values to be 0
-2. traverse the matrix and for all zero cells mark that index in th two arrays as 1.
-3. traverse the matrix again and for all marked index either row or col array, if vale is not already zero mark it zero.
+2. traverse the matrix and for all zero cells mark that index in the two arrays as 1.
+3. traverse the matrix again and for all marked index either row or col array, if value is not already zero mark it zero.
 #### second optimal approach with same tc but constant space complexity
 1. traverse the matrix and mark the row column to be zero if that row has a zero
 2. similarly make a column arrow with a variable col0 initialised to 1 and mark it while traversing if m[i][j]==0 for j==0, col0=0 else m[0][j] = 0
