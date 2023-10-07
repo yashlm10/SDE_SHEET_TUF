@@ -8,11 +8,11 @@ SDE SHEET TUF  problem solution and concepts
 2. traverse the matrix and for all zero cells mark that index in the two arrays as 1.
 3. traverse the matrix again and for all marked index either row or col array, if value is not already zero mark it zero.
 #### second optimal approach with same tc but constant space complexity
-1. traverse the matrix and mark the row column to be zero if that row has a zero
-2. similarly make a column arrow with a variable col0 initialised to 1 and mark it while traversing if m[i][j]==0 for j==0, col0=0 else m[0][j] = 0
-3. traverse the matrix gain but from second row and second column, mark cell zero if either the row or column array is marked.
+1. traverse the matrix and mark the 0th row/column corresponding cell to be zero if that row has a zero(if j is zero then mark col0(which is a variable initialised as 1) as zero, else mark m[0][j] as zero.
+2. basically, 0th row along with col0 will act as column array in last approach and 0th column will act as row array 
+3. traverse the matrix again but from second row and second column, mark cell zero if either the row or column array is marked.
 4. now first check m[0][0] if zero then make the first row all zero.
-5. now check if col0=0 make the entire first column =0.
+5. now check if col0=0 make the entire first column = 0.
 ---
 ## problem 2 pascal's triangle
 ### given the row and column print the value at that position
@@ -23,12 +23,12 @@ SDE SHEET TUF  problem solution and concepts
 ### given the row number print the row
 1. either for each element caluclate nCr but tc = n*n, so better approach.
 2. notice for each row every next element is multiplied by (n-i/i) till the last element.
-3. so start by taking first element = 1 and run a loop from i=1 to i=row number-1 and keep pushing the elements into row vector.tc =n.
+3. so start by taking first element = 1 and run a loop from i=1 to i=(row number-1) and keep pushing the elements into row vector.tc =n.
 ### given a number, print pascals triangle upto that number of rows
-1. for every row, determine the row as mentioned in prev question and by running a loop for number of rows, keeppushing the rows in 2d vector
+1. for every row, determine the row as mentioned in prev question and by running a loop for number of rows, keep pushing the rows in 2d vector
 2. hence you get the vector in n*n tc.
 #### my solution with similar time complexity
-1. run nested loops for every row iteration create a row vector and push these elements for every column.
+1. run nested loops, for every row iteration create a row vector and push these elements for every column.
 2. element is row[j] = v[i-1][j] + v[i-1][j-1]; i.e element is equal to sum of two elements above it. tc = n*n.
 ---
 ## problem 3 next permutation
@@ -56,7 +56,7 @@ SDE SHEET TUF  problem solution and concepts
 1. initialise a maxi variable set to int_min, sum = 0, start =-1, ansstart=-1 ans ansend = -1.
 2. traverse the array and add each element to the sum.
 3. if the sum is greater than maxi then edit value of maxi to be that of sum.
-4. but is sum is -ve, theres no point in carrying it so we change it to zero.
+4. but if sum is -ve, theres no point in carrying it so we change it to zero.
 5. return maxi to get the maximum sum.
 6. at the beginning of every loop iteration check if sum =0 then start = i.
 7. everytime maxi value edits to that of sum, we get ansstart = start(when sum was 0), ansend = i(when sum maxed).
